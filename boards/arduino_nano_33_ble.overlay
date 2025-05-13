@@ -1,0 +1,51 @@
+/*
+ * Copyright (c) 2019, Linaro Ltd.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/{
+	zephyr,user {
+		/* I2C pull-ups are connected to VDD via pin voltage level */
+		pull-up-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+		cs-gpios = <&gpio0 23 GPIO_ACTIVE_LOW>;
+	};
+	chosen {
+		zephyr,console = &cdc_acm_uart0;
+	};
+};
+
+&uart0 {
+	compatible = "nordic,nrf-uarte";
+	current-speed = <115200>;
+	status = "okay";
+	pinctrl-0 = <&uart0_default>;
+	pinctrl-1 = <&uart0_sleep>;
+	pinctrl-names = "default", "sleep";
+};
+
+&i2c0 {
+	compatible = "nordic,nrf-twi";
+	status = "okay";
+
+	ov2640@30 {
+		compatible = "ovti,ov2640";
+		reg = <0x30>;
+		label = "OV2640";
+	};
+};
+
+arduino_spi: &spi2 {
+	compatible = "nordic,nrf-spi";
+	status = "okay";
+	label = "SPI2";
+	pinctrl-0 = <&spi2_default>;
+	pinctrl-1 = <&spi2_sleep>;
+	pinctrl-names = "default", "sleep";
+};
+
+&zephyr_udc0 {
+	cdc_acm_uart0: cdc_acm_uart0 {
+		compatible = "zephyr,cdc-acm-uart";
+		label = "CDC_ACM_0";
+	};
+};

@@ -1,0 +1,7 @@
+.vscode/*
+.history/*
+.idea/*
+build/*
+debug/*
+
+*.log
